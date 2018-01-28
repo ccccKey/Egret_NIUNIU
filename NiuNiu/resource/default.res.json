@@ -1,0 +1,30 @@
+{
+	"groups": [
+		{
+			"keys": "description_json,beginBg_jpg,btn_png,gameBg_jpg",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"name": "description_json",
+			"type": "json",
+			"url": "config/description.json"
+		},
+		{
+			"name": "beginBg_jpg",
+			"type": "image",
+			"url": "assets/beginBg.jpg"
+		},
+		{
+			"name": "btn_png",
+			"type": "image",
+			"url": "assets/btn.png"
+		},
+		{
+			"name": "gameBg_jpg",
+			"type": "image",
+			"url": "assets/gameBg.jpg"
+		}
+	]
+}
