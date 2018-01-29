@@ -17,6 +17,11 @@ module NiuNiu {
             this.addChild(GameBg);
             GameBg.width = this.stage.stageWidth;
             GameBg.height = this.stage.stageHeight;
+
+            let GamePlayer = new NiuNiu.GamePlayer("icon1_jpg", "key", 100000);
+            this.addChild(GamePlayer);
+            GamePlayer.x = this.stage.stageWidth * 0.5 - GamePlayer.width * 0.5;
+            GamePlayer.y = this.stage.stageHeight - GamePlayer.height;
         }
 
     }

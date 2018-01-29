@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,beginBg_jpg,btn_png,gameBg_jpg",
+			"keys": "description_json,beginBg_jpg,btn_png,gameBg_jpg,icon1_jpg,icon2_jpg",
 			"name": "preload"
 		}
 	],
@@ -25,6 +25,16 @@
 			"name": "gameBg_jpg",
 			"type": "image",
 			"url": "assets/gameBg.jpg"
+		},
+		{
+			"name": "icon1_jpg",
+			"type": "image",
+			"url": "assets/icon1.jpg"
+		},
+		{
+			"name": "icon2_jpg",
+			"type": "image",
+			"url": "assets/icon2.jpg"
 		}
 	]
 }
