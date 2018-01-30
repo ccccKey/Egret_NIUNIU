@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,beginBg_jpg,btn_png,gameBg_jpg,icon1_jpg,icon2_jpg",
+			"keys": "description_json,beginBg_jpg,btn_png,gameBg_jpg,icon1_jpg,icon2_jpg,kuang_png,flo2_png,flo3_png,flo4_png,flo1_png",
 			"name": "preload"
 		}
 	],
@@ -35,6 +35,31 @@
 			"name": "icon2_jpg",
 			"type": "image",
 			"url": "assets/icon2.jpg"
+		},
+		{
+			"name": "kuang_png",
+			"type": "image",
+			"url": "assets/kuang.png"
+		},
+		{
+			"name": "flo2_png",
+			"type": "image",
+			"url": "assets/flo2.png"
+		},
+		{
+			"name": "flo3_png",
+			"type": "image",
+			"url": "assets/flo3.png"
+		},
+		{
+			"name": "flo4_png",
+			"type": "image",
+			"url": "assets/flo4.png"
+		},
+		{
+			"name": "flo1_png",
+			"type": "image",
+			"url": "assets/flo1.png"
 		}
 	]
 }

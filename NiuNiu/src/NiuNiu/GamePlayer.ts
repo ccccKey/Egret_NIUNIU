@@ -27,6 +27,19 @@ module NiuNiu {
             this.addChild(icon);
             icon.width = 100;
             icon.height = 100;
+
+            let name = new egret.TextField();
+            this.addChild(name);
+            name.size = 24;
+            name.x = 120;
+            name.y = this.height - 80;
+            name.text = this.playerName + " score:" + this.score;
+
+            let card1 = NiuNiu.createBitmapByName("kuang_png");
+            this.addChild(card1);
+            card1.width = 40;
+            card1.height = 60;
+            card1.x = 120;
         }
 
     }
