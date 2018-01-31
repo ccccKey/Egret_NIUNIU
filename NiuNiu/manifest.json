@@ -12,6 +12,7 @@
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
 		"bin-debug/Platform.js",
+		"bin-debug/NiuNiu/GameCard.js",
 		"bin-debug/NiuNiu/GameController.js",
 		"bin-debug/NiuNiu/GamePlayer.js",
 		"bin-debug/NiuNiu/GameUtil.js"

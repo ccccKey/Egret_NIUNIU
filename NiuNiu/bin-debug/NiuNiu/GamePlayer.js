@@ -12,11 +12,14 @@ var NiuNiu;
 (function (NiuNiu) {
     var GamePlayer = (function (_super) {
         __extends(GamePlayer, _super);
-        function GamePlayer(zIcon, zName, zScore) {
+        function GamePlayer(zIcon, zName, zScore, zMe) {
             var _this = _super.call(this) || this;
+            _this.isMe = false;
+            _this.cardArr = new Array();
             _this.iconStr = zIcon;
             _this.playerName = zName;
             _this.score = zScore;
+            _this.isMe = zMe;
             _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onStageCom, _this);
             return _this;
         }
@@ -26,6 +29,7 @@ var NiuNiu;
             this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onStageCom, this);
             this.initPlayer();
         };
+        //初始化玩家
         GamePlayer.prototype.initPlayer = function () {
             var icon = NiuNiu.createBitmapByName(this.iconStr);
             this.addChild(icon);
@@ -35,13 +39,28 @@ var NiuNiu;
             this.addChild(name);
             name.size = 24;
             name.x = 120;
-            name.y = this.height - 80;
-            name.text = this.playerName + " " + this.score;
-            var card1 = NiuNiu.createBitmapByName("kuang_png");
-            this.addChild(card1);
-            card1.width = 40;
-            card1.height = 60;
-            card1.x = 120;
+            name.text = this.playerName + " score:" + this.score;
+            for (var i = 0; i < 5; i++) {
+                var card = new NiuNiu.GameCard();
+                this.addChild(card);
+                card.x = 120 + (card.width + 10) * i;
+                card.setCard(4, 1);
+                this.cardArr.push(card);
+                if (this.isMe) {
+                    name.y = this.height - 80;
+                    card.y = 0;
+                }
+                else {
+                    name.y = 0;
+                    card.y = 40;
+                }
+            }
+        };
+        GamePlayer.prototype.setPlayerCard = function (zNum, flo, num) {
+            var card = this.cardArr[zNum];
+            if (card) {
+                card.setCard(flo, num);
+            }
         };
         return GamePlayer;
     }(egret.Sprite));

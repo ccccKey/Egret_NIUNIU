@@ -2,16 +2,19 @@ module NiuNiu {
 
     export class GamePlayer extends egret.Sprite {
 
-        private iconStr:string;
-        private playerName:string;
-        private score:number;
+        private iconStr: string;
+        private playerName: string;
+        private score: number;
+        private isMe: boolean = false;
+        private cardArr = new Array();
 
-        public constructor(zIcon:string, zName:string, zScore:number) {
+        public constructor(zIcon: string, zName: string, zScore: number, zMe: boolean) {
             super();
 
             this.iconStr = zIcon;
             this.playerName = zName;
             this.score = zScore;
+            this.isMe = zMe;
             this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onStageCom, this);
         }
 
@@ -19,9 +22,11 @@ module NiuNiu {
             this.width = 200;
             this.height = 150;
             this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onStageCom, this);
+
             this.initPlayer();
         }
 
+        //初始化玩家
         private initPlayer() {
             let icon = NiuNiu.createBitmapByName(this.iconStr);
             this.addChild(icon);
@@ -32,14 +37,30 @@ module NiuNiu {
             this.addChild(name);
             name.size = 24;
             name.x = 120;
-            name.y = this.height - 80;
             name.text = this.playerName + " score:" + this.score;
 
-            let card1 = NiuNiu.createBitmapByName("kuang_png");
-            this.addChild(card1);
-            card1.width = 40;
-            card1.height = 60;
-            card1.x = 120;
+            for (let i = 0; i < 5; i++) {
+                let card = new NiuNiu.GameCard();
+                this.addChild(card);
+                card.x = 120 + (card.width + 10) * i;
+                card.setCard(4, 1);
+                this.cardArr.push(card);
+
+                if (this.isMe) {
+                    name.y = this.height - 80;
+                    card.y = 0;
+                } else {
+                    name.y = 0;
+                    card.y = 40;
+                }
+            }
+        }
+
+        public setPlayerCard(zNum:number, flo:number, num:number) {
+            let card = this.cardArr[zNum] as NiuNiu.GameCard;
+            if(card){
+                card.setCard(flo, num);
+            }
         }
 
     }
