@@ -93,14 +93,14 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
     private createGameScene() {
-        let sky = NiuNiu.createBitmapByName("beginBg_jpg");
+        let sky = GameUtil.createBitmapByName("beginBg_jpg");
         this.addChild(sky);
         let stageW = this.stage.stageWidth;
         let stageH = this.stage.stageHeight;
         sky.width = stageW;
         sky.height = stageH;
 
-        this.beginBtn = NiuNiu.createBitmapByName("btn_png");
+        this.beginBtn = GameUtil.createBitmapByName("btn_png");
         this.addChild(this.beginBtn);
         this.beginBtn.x = this.stage.stageWidth * 0.5 - this.beginBtn.width * 0.5;
         this.beginBtn.y = this.stage.stageHeight - this.beginBtn.height - 50;

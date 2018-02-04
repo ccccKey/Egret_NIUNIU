@@ -31,7 +31,7 @@ var NiuNiu;
         };
         //初始化玩家
         GamePlayer.prototype.initPlayer = function () {
-            var icon = NiuNiu.createBitmapByName(this.iconStr);
+            var icon = GameUtil.createBitmapByName(this.iconStr);
             this.addChild(icon);
             icon.width = 100;
             icon.height = 100;
@@ -40,11 +40,16 @@ var NiuNiu;
             name.size = 24;
             name.x = 120;
             name.text = this.playerName + " score:" + this.score;
+            this.niuText = new egret.TextField();
+            this.addChild(this.niuText);
+            this.niuText.size = 40;
+            this.niuText.x = 400;
+            this.niuText.y = 20;
+            this.niuText.text = "";
             for (var i = 0; i < 5; i++) {
                 var card = new NiuNiu.GameCard();
                 this.addChild(card);
                 card.x = 120 + (card.width + 10) * i;
-                card.setCard(4, 1);
                 this.cardArr.push(card);
                 if (this.isMe) {
                     name.y = this.height - 80;
@@ -56,11 +61,22 @@ var NiuNiu;
                 }
             }
         };
-        GamePlayer.prototype.setPlayerCard = function (zNum, flo, num) {
+        //设置这一轮的牌
+        GamePlayer.prototype.getCardsAndSet = function (cards) {
+            for (var i = 0; i < cards.length; i++) {
+                this.setPlayerCard(i, cards[i][0], cards[i][1], cards[i][2]);
+            }
+        };
+        //设置单张牌
+        GamePlayer.prototype.setPlayerCard = function (zNum, flo, num, count) {
             var card = this.cardArr[zNum];
             if (card) {
-                card.setCard(flo, num);
+                card.setCard(flo, num, count);
             }
+        };
+        //设置牌面文字
+        GamePlayer.prototype.setNiuText = function (str) {
+            this.niuText.text = str;
         };
         return GamePlayer;
     }(egret.Sprite));

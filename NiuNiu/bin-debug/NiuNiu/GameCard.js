@@ -24,11 +24,11 @@ var NiuNiu;
         GameCard.prototype.initCard = function () {
             this.width = 40;
             this.height = 60;
-            this.bg = NiuNiu.createBitmapByName("kuang_png");
+            this.bg = GameUtil.createBitmapByName("kuang_png");
             this.addChild(this.bg);
             this.bg.width = 40;
             this.bg.height = 60;
-            this.flower = NiuNiu.createBitmapByName("flo1_png");
+            this.flower = GameUtil.createBitmapByName("flo1_png");
             this.addChild(this.flower);
             this.flower.width = 30;
             this.flower.height = 30;
@@ -43,7 +43,7 @@ var NiuNiu;
             this.numTxt.textColor = 0x000000;
             // this.numTxt.text = "K";
         };
-        GameCard.prototype.setCard = function (flo, num) {
+        GameCard.prototype.setCard = function (flo, num, count) {
             var floStr = "flo" + flo.toString() + "_png";
             this.flower.texture = RES.getRes(floStr);
             var numStr = num.toString();

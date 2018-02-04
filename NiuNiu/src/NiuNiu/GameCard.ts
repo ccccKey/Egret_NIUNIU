@@ -20,12 +20,12 @@ module NiuNiu{
             this.width = 40;
             this.height = 60;
 
-            this.bg = NiuNiu.createBitmapByName("kuang_png");
+            this.bg = GameUtil.createBitmapByName("kuang_png");
             this.addChild(this.bg);
             this.bg.width = 40;
             this.bg.height = 60;
 
-            this.flower = NiuNiu.createBitmapByName("flo1_png");
+            this.flower = GameUtil.createBitmapByName("flo1_png");
             this.addChild(this.flower);
             this.flower.width = 30;
             this.flower.height = 30;
@@ -42,7 +42,7 @@ module NiuNiu{
             // this.numTxt.text = "K";
         }
 
-        public setCard(flo:number, num:number){
+        public setCard(flo:number, num:number, count:number){
             let floStr = "flo"+ flo.toString() +"_png";
             this.flower.texture = RES.getRes(floStr);
             
