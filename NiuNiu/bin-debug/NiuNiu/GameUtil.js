@@ -44,12 +44,10 @@ var GameUtil;
         CardType[CardType["BOMB"] = 13] = "BOMB";
         CardType[CardType["SMALL_NIU"] = 14] = "SMALL_NIU";
     })(CardType || (CardType = {}));
-    var CardData = new Array();
-    var cardBuffer = new Array();
-    var card1 = new Array();
-    var card2 = new Array();
-    var g_CardsCount = 52; //扑克数目  
-    var g_PerPlaCardCount = 5; //每个玩家牌数 
+    var CardData = new Array(); //原始牌库
+    var cardBuffer = new Array(); //洗牌后的牌库
+    var card1 = new Array(); //庄家的牌
+    var card2 = new Array(); //玩家的牌
     var gameRound = 0; //游戏进行的次数
     var canClick = true;
     function getCard(zType) {
@@ -94,18 +92,20 @@ var GameUtil;
         var cardNums = randUnique(1, 13, 13);
         for (var i = 0; i < cardNums.length; i++) {
             for (var j = 0; j < cardColors.length; j++) {
-                var c = cardColors[j];
-                var n = cardNums[i];
-                var card = [c, n];
+                var card = [cardColors[j], cardNums[i]];
                 CardData.push(card);
             }
         }
-        var bufferCount = new Array();
+        cardBuffer = [];
         var randomNum = randUnique(1, CardData.length, CardData.length);
         for (var i = 0; i < randomNum.length; i++) {
-            bufferCount.push(CardData[randomNum[i]]);
+            if (randomNum[i] == CardData.length) {
+                cardBuffer.push(CardData[randomNum[0]]);
+            }
+            else {
+                cardBuffer.push(CardData[randomNum[i]]);
+            }
         }
-        return bufferCount;
     }
     // export function BitBand(a: number, b: number) {
     //     return a & b;
@@ -134,14 +134,13 @@ var GameUtil;
         card1 = [];
         card2 = [];
         var nums = 0;
-        for (var i = gameRound - 1; i < 10 * gameRound; i++) {
+        for (var i = (gameRound - 1) * 10; i < gameRound * 10; i++) {
             // let CardColor = BitBand(cardBuffer[i], 0Xf0) / 16 + 1;
             // let CardValue = BitBand(cardBuffer[i], 0x0f);
             nums++;
-            var tempBuffer = cardBuffer[i];
-            var CardColor = tempBuffer[0];
-            var CardValue = tempBuffer[1];
-            var CardCount = getCountByValue(tempBuffer[1]);
+            var CardColor = cardBuffer[i][0];
+            var CardValue = cardBuffer[i][1];
+            var CardCount = getCountByValue(cardBuffer[i][1]);
             var cardInfo = [CardColor, CardValue, CardCount];
             if (nums < 6) {
                 card1.push(cardInfo);
@@ -319,7 +318,7 @@ var GameUtil;
     //重置游戏
     function resetGame() {
         gameRound = 0;
-        cardBuffer = RandCardList();
+        RandCardList();
     }
     GameUtil.resetGame = resetGame;
     // export class GameUtil {

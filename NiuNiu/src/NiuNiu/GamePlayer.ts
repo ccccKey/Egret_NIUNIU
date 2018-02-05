@@ -51,6 +51,7 @@ module NiuNiu {
                 let card = new NiuNiu.GameCard();
                 this.addChild(card);
                 card.x = 120 + (card.width + 10) * i;
+                card.visible = false;
                 this.cardArr.push(card);
 
                 if (this.isMe) {
@@ -75,12 +76,24 @@ module NiuNiu {
             let card = this.cardArr[zNum] as NiuNiu.GameCard;
             if(card){
                 card.setCard(flo, num, count);
+                if(!card.visible){
+                    card.visible = true;
+                }
             }
         }
 
         //设置牌面文字
         public setNiuText(str:string){
             this.niuText.text = str;
+        }
+
+        //清除状态
+        public reset(){
+            this.niuText.text = "";
+            
+            for(let i = 0;i<this.cardArr.length;i++){
+                this.cardArr[i].visible = false;
+            }
         }
 
     }

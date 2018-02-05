@@ -47,12 +47,10 @@ module GameUtil {
         SMALL_NIU = 14, //五小牛
     }
 
-    let CardData = new Array();
-    let cardBuffer = new Array();
-    let card1 = new Array();
-    let card2 = new Array();
-    let g_CardsCount = 52     //扑克数目  
-    let g_PerPlaCardCount = 5      //每个玩家牌数 
+    let CardData = new Array(); //原始牌库
+    let cardBuffer = new Array(); //洗牌后的牌库
+    let card1 = new Array(); //庄家的牌
+    let card2 = new Array(); //玩家的牌
     let gameRound = 0; //游戏进行的次数
 
     let canClick: boolean = true;
@@ -103,20 +101,20 @@ module GameUtil {
 
         for (let i = 0; i < cardNums.length; i++) {
             for (let j = 0; j < cardColors.length; j++) {
-                let c = cardColors[j];
-                let n = cardNums[i];
-                let card: number[] = [c, n];
+                let card: number[] = [cardColors[j], cardNums[i]];
                 CardData.push(card);
             }
         }
 
-        let bufferCount = new Array();
+        cardBuffer = [];
         let randomNum = randUnique(1, CardData.length, CardData.length);
         for (let i = 0; i < randomNum.length; i++) {
-            bufferCount.push(CardData[randomNum[i]]);
+            if(randomNum[i] == CardData.length){
+                cardBuffer.push(CardData[randomNum[0]]);
+            }else{
+                cardBuffer.push(CardData[randomNum[i]]);
+            }
         }
-
-        return bufferCount;
     }
 
     // export function BitBand(a: number, b: number) {
@@ -153,15 +151,14 @@ module GameUtil {
         card1 = [];
         card2 = [];
         let nums = 0;
-        for (let i = gameRound - 1; i < 10 * gameRound; i++) {
+        for (let i = (gameRound - 1) * 10; i < gameRound * 10; i++) {
             // let CardColor = BitBand(cardBuffer[i], 0Xf0) / 16 + 1;
             // let CardValue = BitBand(cardBuffer[i], 0x0f);
             nums++;
 
-            let tempBuffer:number[] = cardBuffer[i];
-            let CardColor = tempBuffer[0];
-            let CardValue = tempBuffer[1];
-            let CardCount = getCountByValue(tempBuffer[1]);
+            let CardColor = cardBuffer[i][0];
+            let CardValue = cardBuffer[i][1];
+            let CardCount = getCountByValue(cardBuffer[i][1]);
             let cardInfo: number[] = [CardColor, CardValue, CardCount];
 
             if(nums < 6){
@@ -360,7 +357,7 @@ module GameUtil {
     //重置游戏
     export function resetGame() {
         gameRound = 0;
-        cardBuffer = RandCardList();
+        RandCardList();
     }
 
     // export class GameUtil {

@@ -50,6 +50,7 @@ var NiuNiu;
                 var card = new NiuNiu.GameCard();
                 this.addChild(card);
                 card.x = 120 + (card.width + 10) * i;
+                card.visible = false;
                 this.cardArr.push(card);
                 if (this.isMe) {
                     name.y = this.height - 80;
@@ -72,11 +73,21 @@ var NiuNiu;
             var card = this.cardArr[zNum];
             if (card) {
                 card.setCard(flo, num, count);
+                if (!card.visible) {
+                    card.visible = true;
+                }
             }
         };
         //设置牌面文字
         GamePlayer.prototype.setNiuText = function (str) {
             this.niuText.text = str;
+        };
+        //清除状态
+        GamePlayer.prototype.reset = function () {
+            this.niuText.text = "";
+            for (var i = 0; i < this.cardArr.length; i++) {
+                this.cardArr[i].visible = false;
+            }
         };
         return GamePlayer;
     }(egret.Sprite));
