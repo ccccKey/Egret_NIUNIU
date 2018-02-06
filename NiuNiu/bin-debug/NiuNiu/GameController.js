@@ -14,6 +14,8 @@ var NiuNiu;
         __extends(GameController, _super);
         function GameController() {
             var _this = _super.call(this) || this;
+            _this.scoreCost = 500; //每次花费
+            _this.GameAlert = new NiuNiu.GameAlert();
             _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
             return _this;
         }
@@ -69,10 +71,15 @@ var NiuNiu;
             resetfield.textColor = 0x000000;
             resetfield.x = -15;
             resetfield.y = 17;
+            this.addChild(this.GameAlert);
         };
         //开始游戏
         GameController.prototype.GameStart = function () {
             GameUtil.getCardBuffer();
+            if (!GameUtil.getRound()) {
+                this.Alert("牌数不足,请重新洗牌");
+                return;
+            }
             var playerCard1 = GameUtil.getCard(1);
             var playerCard1Type = GameUtil.getTypeByCard(playerCard1);
             var playerCard1Name = GameUtil.getCardTypeNamebyType(playerCard1Type);
@@ -86,11 +93,19 @@ var NiuNiu;
             if (GameUtil.bankerIsWin(playerCard1, playerCard2)) {
                 //庄家赢
                 this.GamePlayer1.setNiuText(playerCard1Name + "--赢");
+                this.GamePlayer1.setScoreText(this.scoreCost * GameUtil.getCardTypeCost(playerCard1Type));
+                this.GamePlayer2.setScoreText(-this.scoreCost * GameUtil.getCardTypeCost(playerCard2Type));
             }
             else {
                 //庄家输
                 this.GamePlayer1.setNiuText(playerCard1Name + "--输");
+                this.GamePlayer1.setScoreText(-this.scoreCost * GameUtil.getCardTypeCost(playerCard1Type));
+                this.GamePlayer2.setScoreText(this.scoreCost * GameUtil.getCardTypeCost(playerCard2Type));
             }
+        };
+        //飘字提示
+        GameController.prototype.Alert = function (str) {
+            this.GameAlert.AlertStr(str);
         };
         //重置游戏,重新洗牌
         GameController.prototype.GameRest = function () {

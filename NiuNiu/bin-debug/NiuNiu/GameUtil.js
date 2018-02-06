@@ -67,6 +67,7 @@ var GameUtil;
             return true;
         }
     }
+    GameUtil.getRound = getRound;
     function getCountByValue(value) {
         if (value > 10) {
             return 10;
@@ -181,24 +182,33 @@ var GameUtil;
     GameUtil.bankerIsWin = bankerIsWin;
     //判断牌面类型
     function getTypeByCard(cards) {
-        // Array.prototype.sort()
+        //冒泡排序,牌面从小到大
+        for (var i = 0; i < cards.length - 1; i++) {
+            for (var j = 0; j < cards.length - 1 - i; j++) {
+                if (cards[j][1] > cards[j + 1][1]) {
+                    var temp = cards[j];
+                    cards[j] = cards[j + 1];
+                    cards[j + 1] = temp;
+                }
+            }
+        }
         var cardtype = CardType.NOT_NIU;
         if (is_small_niu(cards)) {
             cardtype = CardType.SMALL_NIU;
             return cardtype;
         }
-        // if(is_bomb(cards)){
-        //     cardtype = CardType.BOMB;
-        //     return cardtype;
-        // }
-        // if(is_gold_niu(cards)){
-        //     cardtype = CardType.GOLD_NIU;
-        //     return cardtype;
-        // }
-        // if(is_silver_niu(cards)){
-        //     cardtype = CardType.SILVER_NIU;
-        //     return cardtype;
-        // }
+        if (is_bomb(cards)) {
+            cardtype = CardType.BOMB;
+            return cardtype;
+        }
+        if (is_gold_niu(cards)) {
+            cardtype = CardType.GOLD_NIU;
+            return cardtype;
+        }
+        if (is_silver_niu(cards)) {
+            cardtype = CardType.SILVER_NIU;
+            return cardtype;
+        }
         cardtype = getNiuByCard(cards);
         return cardtype;
     }
@@ -230,7 +240,7 @@ var GameUtil;
     }
     //判断是否银牛
     function is_silver_niu(cards) {
-        if (cards[2][1] > 10 && cards[1][1] == 10) {
+        if (cards[1][1] > 10 && cards[0][1] == 10) {
             return true;
         }
         else {
@@ -315,31 +325,49 @@ var GameUtil;
         return "异常牌型";
     }
     GameUtil.getCardTypeNamebyType = getCardTypeNamebyType;
+    //返还分数倍数
+    function getCardTypeCost(zType) {
+        switch (zType) {
+            case CardType.NOT_NIU:
+                return 1;
+            case CardType.NIU_1:
+                return 1;
+            case CardType.NIU_2:
+                return 1;
+            case CardType.NIU_3:
+                return 1;
+            case CardType.NIU_4:
+                return 1;
+            case CardType.NIU_5:
+                return 1;
+            case CardType.NIU_6:
+                return 1;
+            case CardType.NIU_7:
+                return 2;
+            case CardType.NIU_8:
+                return 2;
+            case CardType.NIU_9:
+                return 2;
+            case CardType.NIU_NIU:
+                return 3;
+            case CardType.SILVER_NIU:
+                return 4;
+            case CardType.GOLD_NIU:
+                return 4;
+            case CardType.BOMB:
+                return 5;
+            case CardType.SMALL_NIU:
+                return 5;
+        }
+        return 1;
+    }
+    GameUtil.getCardTypeCost = getCardTypeCost;
     //重置游戏
     function resetGame() {
         gameRound = 0;
         RandCardList();
     }
     GameUtil.resetGame = resetGame;
-    // export class GameUtil {
-    //     public i: number = 1;
-    //     private statusTimer: egret.Timer = null;
-    //     public setStatusTimer(status: number, sec: number) {
-    //         if (this.statusTimer) {
-    //             this.statusTimer.stop();
-    //             this.statusTimer.repeatCount = sec;
-    //             this.statusTimer.start()
-    //         } else {
-    //             this.statusTimer = new egret.Timer(1000, sec);
-    //             this.statusTimer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.statusTimerOut, this);
-    //             this.statusTimer.start();
-    //         }
-    //     }
-    //     private statusTimerOut(e: egret.Timer) {
-    //         this.statusTimer.removeEventListener(egret.TimerEvent.TIMER_COMPLETE, this.statusTimerOut, this);
-    //         this.statusTimer = null;
-    //     }
-    // }
     function createBitmapByName(name) {
         var result = new egret.Bitmap();
         var texture = RES.getRes(name);

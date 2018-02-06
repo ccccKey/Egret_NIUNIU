@@ -29,8 +29,6 @@
 
 class Main extends egret.DisplayObjectContainer {
 
-
-
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -57,8 +55,6 @@ class Main extends egret.DisplayObjectContainer {
         this.runGame().catch(e => {
             console.log(e);
         })
-
-
 
     }
 
@@ -107,21 +103,23 @@ class Main extends egret.DisplayObjectContainer {
         this.beginBtn.touchEnabled = true;
         this.beginBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGameStart, this);
 
-        let textfield = new egret.TextField();
-        this.addChild(textfield);
-        textfield.text = "开始游戏";
-        textfield.width = stageW;
-        textfield.textAlign = egret.HorizontalAlign.CENTER;
-        textfield.size = 28;
-        textfield.textColor = 0x000000;
-        textfield.y = this.stage.stageHeight - 105;
-        this.textfield = textfield;
+        this.textfield = new egret.TextField();
+        this.addChild(this.textfield);
+        this.textfield.text = "开始游戏";
+        this.textfield.width = stageW;
+        this.textfield.textAlign = egret.HorizontalAlign.CENTER;
+        this.textfield.size = 28;
+        this.textfield.textColor = 0x000000;
+        this.textfield.y = this.stage.stageHeight - 105;
 
     }
 
+    private GameAlert = new NiuNiu.GameAlert();
+
     private onGameStart(e:egret.TouchEvent):void{
-        console.log("click here");
         this.beginBtn.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onGameStart, this);
+        this.removeChild(this.beginBtn);
+        this.removeChild(this.textfield);
 
         let GameC:NiuNiu.GameController = new NiuNiu.GameController();
         this.addChild(GameC);

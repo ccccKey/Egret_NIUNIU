@@ -75,6 +75,7 @@ var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
         var _this = _super.call(this) || this;
+        _this.GameAlert = new NiuNiu.GameAlert();
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -161,19 +162,19 @@ var Main = (function (_super) {
         this.beginBtn.y = this.stage.stageHeight - this.beginBtn.height - 50;
         this.beginBtn.touchEnabled = true;
         this.beginBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGameStart, this);
-        var textfield = new egret.TextField();
-        this.addChild(textfield);
-        textfield.text = "开始游戏";
-        textfield.width = stageW;
-        textfield.textAlign = egret.HorizontalAlign.CENTER;
-        textfield.size = 28;
-        textfield.textColor = 0x000000;
-        textfield.y = this.stage.stageHeight - 105;
-        this.textfield = textfield;
+        this.textfield = new egret.TextField();
+        this.addChild(this.textfield);
+        this.textfield.text = "开始游戏";
+        this.textfield.width = stageW;
+        this.textfield.textAlign = egret.HorizontalAlign.CENTER;
+        this.textfield.size = 28;
+        this.textfield.textColor = 0x000000;
+        this.textfield.y = this.stage.stageHeight - 105;
     };
     Main.prototype.onGameStart = function (e) {
-        console.log("click here");
         this.beginBtn.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onGameStart, this);
+        this.removeChild(this.beginBtn);
+        this.removeChild(this.textfield);
         var GameC = new NiuNiu.GameController();
         this.addChild(GameC);
     };

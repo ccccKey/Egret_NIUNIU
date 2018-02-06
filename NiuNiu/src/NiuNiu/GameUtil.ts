@@ -55,15 +55,15 @@ module GameUtil {
 
     let canClick: boolean = true;
 
-    export function getCard(zType:number):Array<number>{
-        if(zType == 1){
+    export function getCard(zType: number): Array<number> {
+        if (zType == 1) {
             return card1;
-        }else{
+        } else {
             return card2;
         }
     }
 
-    function getRound(): boolean {
+    export function getRound(): boolean {
         if (gameRound > 5) {
             return false;
         } else {
@@ -109,9 +109,9 @@ module GameUtil {
         cardBuffer = [];
         let randomNum = randUnique(1, CardData.length, CardData.length);
         for (let i = 0; i < randomNum.length; i++) {
-            if(randomNum[i] == CardData.length){
+            if (randomNum[i] == CardData.length) {
                 cardBuffer.push(CardData[randomNum[0]]);
-            }else{
+            } else {
                 cardBuffer.push(CardData[randomNum[i]]);
             }
         }
@@ -161,44 +161,44 @@ module GameUtil {
             let CardCount = getCountByValue(cardBuffer[i][1]);
             let cardInfo: number[] = [CardColor, CardValue, CardCount];
 
-            if(nums < 6){
+            if (nums < 6) {
                 card1.push(cardInfo);
-            }else{
+            } else {
                 card2.push(cardInfo);
             }
         }
     }
 
     //判断庄家是否赢
-    export function bankerIsWin(banker_cards:Array<number>, other_cards:Array<number>):boolean{
+    export function bankerIsWin(banker_cards: Array<number>, other_cards: Array<number>): boolean {
         let banker_cardType = getTypeByCard(banker_cards);
         let other_cardType = getTypeByCard(other_cards);
 
-        if(banker_cardType != other_cardType){
+        if (banker_cardType != other_cardType) {
             return banker_cardType > other_cardType;
         }
 
-        if(banker_cardType == CardType.SMALL_NIU){
+        if (banker_cardType == CardType.SMALL_NIU) {
             return true;
         }
 
-        if(banker_cardType == CardType.BOMB){
+        if (banker_cardType == CardType.BOMB) {
             return banker_cards[2][1] > other_cards[2][1];
         }
 
-        if(banker_cardType == CardType.GOLD_NIU){
+        if (banker_cardType == CardType.GOLD_NIU) {
             return compByCardsValue(other_cards[4], banker_cards[4]);
         }
 
-        if(banker_cardType == CardType.SILVER_NIU){
+        if (banker_cardType == CardType.SILVER_NIU) {
             return compByCardsValue(other_cards[4], banker_cards[4]);
         }
 
-        if(banker_cardType == CardType.NIU_NIU){
+        if (banker_cardType == CardType.NIU_NIU) {
             return compByCardsValue(other_cards[4], banker_cards[4]);
         }
 
-        if(banker_cardType == CardType.NOT_NIU){
+        if (banker_cardType == CardType.NOT_NIU) {
             return compByCardsValue(other_cards[4], banker_cards[4]);
         }
 
@@ -206,29 +206,40 @@ module GameUtil {
     }
 
     //判断牌面类型
-    export function getTypeByCard(cards:Array<number>){
-        // Array.prototype.sort()
+    export function getTypeByCard(cards: Array<number>) {
+
+        //冒泡排序,牌面从小到大
+        for (let i = 0; i < cards.length - 1; i++) {
+            for (let j = 0; j < cards.length - 1 - i; j++) {
+                if (cards[j][1] > cards[j + 1][1]) {
+                    var temp = cards[j];
+                    cards[j] = cards[j + 1];
+                    cards[j + 1] = temp;
+                }
+            }
+        }
+
         let cardtype = CardType.NOT_NIU;
 
-        if(is_small_niu(cards)){
+        if (is_small_niu(cards)) {
             cardtype = CardType.SMALL_NIU;
             return cardtype;
         }
 
-        // if(is_bomb(cards)){
-        //     cardtype = CardType.BOMB;
-        //     return cardtype;
-        // }
+        if(is_bomb(cards)){
+            cardtype = CardType.BOMB;
+            return cardtype;
+        }
 
-        // if(is_gold_niu(cards)){
-        //     cardtype = CardType.GOLD_NIU;
-        //     return cardtype;
-        // }
+        if(is_gold_niu(cards)){
+            cardtype = CardType.GOLD_NIU;
+            return cardtype;
+        }
 
-        // if(is_silver_niu(cards)){
-        //     cardtype = CardType.SILVER_NIU;
-        //     return cardtype;
-        // }
+        if(is_silver_niu(cards)){
+            cardtype = CardType.SILVER_NIU;
+            return cardtype;
+        }
 
         cardtype = getNiuByCard(cards);
 
@@ -236,60 +247,60 @@ module GameUtil {
     }
 
     //判断牌面不过十
-    function is_small_niu(cards:Array<number>):boolean{
+    function is_small_niu(cards: Array<number>): boolean {
         let sum = 0;
-        for(let i = 0;i<cards.length;i++){
+        for (let i = 0; i < cards.length; i++) {
             sum = sum + cards[i][2];
         }
-        if(sum <= 10){
+        if (sum <= 10) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     //判断是否金刚
-    function is_bomb(cards:Array<number>):boolean{
-        if(cards[0][1] == cards[3][1]){
+    function is_bomb(cards: Array<number>): boolean {
+        if (cards[0][1] == cards[3][1]) {
             return true;
-        }else if(cards[1][1] == cards[4][1]){
+        } else if (cards[1][1] == cards[4][1]) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     //判断是否银牛
-    function is_silver_niu(cards:Array<number>):boolean{
-        if(cards[2][1] > 10 && cards[1][1] == 10){
+    function is_silver_niu(cards: Array<number>): boolean {
+        if (cards[1][1] > 10 && cards[0][1] == 10) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     //判断是否金牛
-    function is_gold_niu(cards:Array<number>):boolean{
-        if(cards[0][1] > 10){
+    function is_gold_niu(cards: Array<number>): boolean {
+        if (cards[0][1] > 10) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     //判断有没有牛
-    function getNiuByCard(cards:Array<number>):number{
+    function getNiuByCard(cards: Array<number>): number {
         let lave = 0;
-        for(let i = 0;i<cards.length;i++){
+        for (let i = 0; i < cards.length; i++) {
             lave = lave + cards[i][2];
         }
         lave = lave % 10;
-        for(let i = 0;i<cards.length - 1;i++){
-            for(let j = i + 1;j<cards.length;j++){
-                if((cards[i][2] + cards[j][2]) % 10 == lave){
-                    if(lave == 0){
+        for (let i = 0; i < cards.length - 1; i++) {
+            for (let j = i + 1; j < cards.length; j++) {
+                if ((cards[i][2] + cards[j][2]) % 10 == lave) {
+                    if (lave == 0) {
                         return 10;
-                    }else{
+                    } else {
                         return lave;
                     }
                 }
@@ -300,20 +311,20 @@ module GameUtil {
     }
 
     //对比牌面大小
-    function compByCardsValue(a:number, b:number):boolean{
+    function compByCardsValue(a: number, b: number): boolean {
 
-        if(a[1] < b[1]){
+        if (a[1] < b[1]) {
             return true;
         }
 
-        if(a[1] > b[1]){
+        if (a[1] > b[1]) {
             return false;
         }
 
         return a[0] < b[0];
     }
 
-    function sortCards(a:number, b:number){
+    function sortCards(a: number, b: number) {
 
     }
 
@@ -354,39 +365,49 @@ module GameUtil {
         return "异常牌型";
     }
 
+    //返还分数倍数
+    export function getCardTypeCost(zType: CardType): number {
+        switch (zType) {
+            case CardType.NOT_NIU:
+                return 1;
+            case CardType.NIU_1:
+                return 1;
+            case CardType.NIU_2:
+                return 1;
+            case CardType.NIU_3:
+                return 1;
+            case CardType.NIU_4:
+                return 1;
+            case CardType.NIU_5:
+                return 1;
+            case CardType.NIU_6:
+                return 1;
+            case CardType.NIU_7:
+                return 2;
+            case CardType.NIU_8:
+                return 2;
+            case CardType.NIU_9:
+                return 2;
+            case CardType.NIU_NIU:
+                return 3;
+            case CardType.SILVER_NIU:
+                return 4;
+            case CardType.GOLD_NIU:
+                return 4;
+            case CardType.BOMB:
+                return 5;
+            case CardType.SMALL_NIU:
+                return 5;
+        }
+
+        return 1;
+    }
+
     //重置游戏
     export function resetGame() {
         gameRound = 0;
         RandCardList();
     }
-
-    // export class GameUtil {
-    //     public i: number = 1;
-
-    //     private statusTimer: egret.Timer = null;
-
-    //     public setStatusTimer(status: number, sec: number) {
-    //         if (this.statusTimer) {
-    //             this.statusTimer.stop();
-
-    //             this.statusTimer.repeatCount = sec;
-    //             this.statusTimer.start()
-    //         } else {
-    //             this.statusTimer = new egret.Timer(1000, sec);
-    //             this.statusTimer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.statusTimerOut, this);
-    //             this.statusTimer.start();
-    //         }
-
-
-    //     }
-
-    //     private statusTimerOut(e: egret.Timer) {
-    //         this.statusTimer.removeEventListener(egret.TimerEvent.TIMER_COMPLETE, this.statusTimerOut, this);
-    //         this.statusTimer = null;
-    //     }
-
-
-    // }
 
     export function createBitmapByName(name: string): egret.Bitmap {
         let result = new egret.Bitmap();

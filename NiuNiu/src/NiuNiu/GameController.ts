@@ -4,6 +4,8 @@ module NiuNiu {
 
         private GamePlayer1;
         private GamePlayer2;
+        private scoreCost = 500; //每次花费
+        private GameAlert = new NiuNiu.GameAlert();
 
         public constructor() {
             super();
@@ -52,7 +54,7 @@ module NiuNiu {
             textfield.textColor = 0x000000;
             textfield.x = this.stage.stageWidth * 0.5 - textfield.width * 0.5;
             textfield.y = this.stage.stageHeight * 0.5 - textfield.height * 0.5;
-            
+
 
             let resetBtn = GameUtil.createBitmapByName("btn_png");
             this.addChild(resetBtn);
@@ -65,18 +67,25 @@ module NiuNiu {
 
             let resetfield = new egret.TextField();
             this.addChild(resetfield);
-            resetfield.text = "重置";
+            resetfield.text = "洗 牌";
             resetfield.width = 200;
             resetfield.textAlign = egret.HorizontalAlign.CENTER;
             resetfield.size = 25;
             resetfield.textColor = 0x000000;
             resetfield.x = -15;
             resetfield.y = 17;
+
+            this.addChild(this.GameAlert);
         }
 
         //开始游戏
         private GameStart() {
             GameUtil.getCardBuffer();
+
+            if (!GameUtil.getRound()) {
+                this.Alert("牌数不足,请重新洗牌");
+                return;
+            }
 
             let playerCard1 = GameUtil.getCard(1);
             let playerCard1Type = GameUtil.getTypeByCard(playerCard1);
@@ -93,19 +102,28 @@ module NiuNiu {
             if (GameUtil.bankerIsWin(playerCard1, playerCard2)) {
                 //庄家赢
                 this.GamePlayer1.setNiuText(playerCard1Name + "--赢");
+                this.GamePlayer1.setScoreText(this.scoreCost * GameUtil.getCardTypeCost(playerCard1Type));
+                this.GamePlayer2.setScoreText(-this.scoreCost * GameUtil.getCardTypeCost(playerCard2Type));
             } else {
                 //庄家输
                 this.GamePlayer1.setNiuText(playerCard1Name + "--输");
+                this.GamePlayer1.setScoreText(-this.scoreCost * GameUtil.getCardTypeCost(playerCard1Type));
+                this.GamePlayer2.setScoreText(this.scoreCost * GameUtil.getCardTypeCost(playerCard2Type));
             }
         }
 
+        //飘字提示
+        private Alert(str: string) {
+            this.GameAlert.AlertStr(str);
+        }
+
         //重置游戏,重新洗牌
-        private GameRest(){
+        private GameRest() {
             GameUtil.resetGame();
 
             this.GamePlayer1.reset();
             this.GamePlayer2.reset();
         }
-
     }
+
 }

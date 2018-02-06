@@ -35,11 +35,11 @@ var NiuNiu;
             this.addChild(icon);
             icon.width = 100;
             icon.height = 100;
-            var name = new egret.TextField();
-            this.addChild(name);
-            name.size = 24;
-            name.x = 120;
-            name.text = this.playerName + " score:" + this.score;
+            this.nameText = new egret.TextField();
+            this.addChild(this.nameText);
+            this.nameText.size = 24;
+            this.nameText.x = 120;
+            this.nameText.text = this.playerName + " score:" + this.score;
             this.niuText = new egret.TextField();
             this.addChild(this.niuText);
             this.niuText.size = 40;
@@ -53,11 +53,11 @@ var NiuNiu;
                 card.visible = false;
                 this.cardArr.push(card);
                 if (this.isMe) {
-                    name.y = this.height - 80;
+                    this.nameText.y = this.height - 80;
                     card.y = 0;
                 }
                 else {
-                    name.y = 0;
+                    this.nameText.y = 0;
                     card.y = 40;
                 }
             }
@@ -77,6 +77,11 @@ var NiuNiu;
                     card.visible = true;
                 }
             }
+        };
+        //设置分数
+        GamePlayer.prototype.setScoreText = function (zScore) {
+            this.score += zScore;
+            this.nameText.text = this.playerName + " score:" + this.score;
         };
         //设置牌面文字
         GamePlayer.prototype.setNiuText = function (str) {
