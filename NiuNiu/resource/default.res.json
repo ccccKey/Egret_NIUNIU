@@ -1,65 +1,70 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,beginBg_jpg,btn_png,gameBg_jpg,icon1_jpg,icon2_jpg,kuang_png,flo2_png,flo3_png,flo4_png,flo1_png",
+			"keys": "description_json,beginBg_jpg,btn_png,gameBg_jpg,icon1_jpg,icon2_jpg,kuang_png,flo2_png,flo3_png,flo4_png,flo1_png,kuang2_png",
 			"name": "preload"
 		}
 	],
 	"resources": [
 		{
-			"name": "description_json",
+			"url": "config/description.json",
 			"type": "json",
-			"url": "config/description.json"
+			"name": "description_json"
 		},
 		{
-			"name": "beginBg_jpg",
+			"url": "assets/beginBg.jpg",
 			"type": "image",
-			"url": "assets/beginBg.jpg"
+			"name": "beginBg_jpg"
 		},
 		{
-			"name": "btn_png",
+			"url": "assets/btn.png",
 			"type": "image",
-			"url": "assets/btn.png"
+			"name": "btn_png"
 		},
 		{
-			"name": "gameBg_jpg",
+			"url": "assets/gameBg.jpg",
 			"type": "image",
-			"url": "assets/gameBg.jpg"
+			"name": "gameBg_jpg"
 		},
 		{
-			"name": "icon1_jpg",
+			"url": "assets/icon1.jpg",
 			"type": "image",
-			"url": "assets/icon1.jpg"
+			"name": "icon1_jpg"
 		},
 		{
-			"name": "icon2_jpg",
+			"url": "assets/icon2.jpg",
 			"type": "image",
-			"url": "assets/icon2.jpg"
+			"name": "icon2_jpg"
 		},
 		{
-			"name": "kuang_png",
+			"url": "assets/kuang.png",
 			"type": "image",
-			"url": "assets/kuang.png"
+			"name": "kuang_png"
 		},
 		{
-			"name": "flo2_png",
+			"url": "assets/flo2.png",
 			"type": "image",
-			"url": "assets/flo2.png"
+			"name": "flo2_png"
 		},
 		{
-			"name": "flo3_png",
+			"url": "assets/flo3.png",
 			"type": "image",
-			"url": "assets/flo3.png"
+			"name": "flo3_png"
 		},
 		{
-			"name": "flo4_png",
+			"url": "assets/flo4.png",
 			"type": "image",
-			"url": "assets/flo4.png"
+			"name": "flo4_png"
 		},
 		{
-			"name": "flo1_png",
+			"url": "assets/flo1.png",
 			"type": "image",
-			"url": "assets/flo1.png"
+			"name": "flo1_png"
+		},
+		{
+			"url": "assets/kuang2.png",
+			"type": "image",
+			"name": "kuang2_png"
 		}
 	]
 }

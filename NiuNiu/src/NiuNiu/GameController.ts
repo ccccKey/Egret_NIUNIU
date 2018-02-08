@@ -6,6 +6,7 @@ module NiuNiu {
         private GamePlayer2;
         private scoreCost = 500; //每次花费
         private GameAlert = new NiuNiu.GameAlert();
+        private GameRank = new NiuNiu.GameHistoryRank();
 
         public constructor() {
             super();
@@ -75,6 +76,9 @@ module NiuNiu {
             resetfield.x = -15;
             resetfield.y = 17;
 
+            this.GameRank.x = -50;
+            this.GameRank.y = 200;
+            this.addChild(this.GameRank);
             this.addChild(this.GameAlert);
         }
 
@@ -104,12 +108,15 @@ module NiuNiu {
                 this.GamePlayer1.setNiuText(playerCard1Name + "--赢");
                 this.GamePlayer1.setScoreText(this.scoreCost * GameUtil.getCardTypeCost(playerCard1Type));
                 this.GamePlayer2.setScoreText(-this.scoreCost * GameUtil.getCardTypeCost(playerCard2Type));
+                this.GameRank.addOne(playerCard1, playerCard2, true);
             } else {
                 //庄家输
                 this.GamePlayer1.setNiuText(playerCard1Name + "--输");
                 this.GamePlayer1.setScoreText(-this.scoreCost * GameUtil.getCardTypeCost(playerCard1Type));
                 this.GamePlayer2.setScoreText(this.scoreCost * GameUtil.getCardTypeCost(playerCard2Type));
+                this.GameRank.addOne(playerCard1, playerCard2, false);
             }
+            
         }
 
         //飘字提示

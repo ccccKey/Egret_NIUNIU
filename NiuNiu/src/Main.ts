@@ -96,6 +96,22 @@ class Main extends egret.DisplayObjectContainer {
         sky.width = stageW;
         sky.height = stageH;
 
+        // var buttonSkin =
+        //     `<e:Skin class="skins.ButtonSkin" states="up,down,disabled" minHeight="50" minWidth="100" xmlns:e="">
+        //         <e:Image width="100%" height="100%" scale9Grid="1,3,8,8" alpha.disabled="0.5"
+        //                  source="resource/button_up.png"
+        //                  source.down="resource/btn_png.png"/>
+        //         <e:Label id="labelDisplay" top="8" bottom="8" left="8" right="8"
+        //                  textColor="0xFFFFFF" verticalAlign="middle" textAlign="center"/>
+        //         <e:Image id="iconDisplay" horizontalCenter="0" verticalCenter="0"/>
+        //     </e:Skin>`;
+
+        // let btn = new eui.Button();
+        // this.addChild(btn);
+        // btn.x = this.stage.stageWidth * 0.5 - btn.width * 0.5;
+        // btn.y = this.stage.stageHeight - btn.height - 50;
+        // btn.label = "开始游戏";
+
         this.beginBtn = GameUtil.createBitmapByName("btn_png");
         this.addChild(this.beginBtn);
         this.beginBtn.x = this.stage.stageWidth * 0.5 - this.beginBtn.width * 0.5;

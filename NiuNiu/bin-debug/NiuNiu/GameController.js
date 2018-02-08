@@ -16,6 +16,7 @@ var NiuNiu;
             var _this = _super.call(this) || this;
             _this.scoreCost = 500; //每次花费
             _this.GameAlert = new NiuNiu.GameAlert();
+            _this.GameRank = new NiuNiu.GameHistoryRank();
             _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
             return _this;
         }
@@ -64,13 +65,16 @@ var NiuNiu;
             resetBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.GameRest, this);
             var resetfield = new egret.TextField();
             this.addChild(resetfield);
-            resetfield.text = "重置";
+            resetfield.text = "洗 牌";
             resetfield.width = 200;
             resetfield.textAlign = egret.HorizontalAlign.CENTER;
             resetfield.size = 25;
             resetfield.textColor = 0x000000;
             resetfield.x = -15;
             resetfield.y = 17;
+            this.GameRank.x = -50;
+            this.GameRank.y = 200;
+            this.addChild(this.GameRank);
             this.addChild(this.GameAlert);
         };
         //开始游戏
@@ -95,12 +99,14 @@ var NiuNiu;
                 this.GamePlayer1.setNiuText(playerCard1Name + "--赢");
                 this.GamePlayer1.setScoreText(this.scoreCost * GameUtil.getCardTypeCost(playerCard1Type));
                 this.GamePlayer2.setScoreText(-this.scoreCost * GameUtil.getCardTypeCost(playerCard2Type));
+                this.GameRank.addOne(playerCard1, playerCard2, true);
             }
             else {
                 //庄家输
                 this.GamePlayer1.setNiuText(playerCard1Name + "--输");
                 this.GamePlayer1.setScoreText(-this.scoreCost * GameUtil.getCardTypeCost(playerCard1Type));
                 this.GamePlayer2.setScoreText(this.scoreCost * GameUtil.getCardTypeCost(playerCard2Type));
+                this.GameRank.addOne(playerCard1, playerCard2, false);
             }
         };
         //飘字提示
